@@ -48,4 +48,5 @@ vignettes/*.pdf
 # Log Files
 *.log
 
-scheduler.R
+# Shape Files
+*.shp
