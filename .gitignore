@@ -48,5 +48,6 @@ vignettes/*.pdf
 # Log Files
 *.log
 
-# Shape Files
+# Spatial Files
 *.shp
+*.geojson

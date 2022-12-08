@@ -1,7 +1,6 @@
 library(sf)
-library(mapview)
 library(dplyr)
-library(ggplot2)
+library(rgdal)
 
 # Shapefile
 shp_url <- "https://storage.googleapis.com/mpg-data-warehouse/mpg_geo/Shapefile/Test_Shapefile/Revegetation_All_Years_Test.shp"
@@ -12,14 +11,11 @@ download.file(shp_url, "Revegetation_All_Years_Test.shp", mode="wb")
 # Read object
 veg_sf <- read_sf('./Test_Shapefile/Revegetation_All_Years_Test.shp') 
 
-# Interactive map with mapview
-mapview(veg_sf)
+# Update Coordinate System
+veg_4326 <- st_transform(veg_sf, crs = 4326)
 
-# Plot with ggplot
-veg_sf %>%
-  filter(Year > 2000) %>%
-  ggplot() +
-    geom_sf(mapping = aes(fill = as.factor(Action), alpha=0.4)) +
-    facet_wrap(~ Year)
+# Explore
+veg_4326 %>% head()
 
-veg_sf %>% head()
+# Output to GeoJSON
+st_write(veg_4326, "Revegetation_All_Years_Test.geojson")
