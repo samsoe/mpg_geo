@@ -51,3 +51,8 @@ vignettes/*.pdf
 # Spatial Files
 *.shp
 *.geojson
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.shx

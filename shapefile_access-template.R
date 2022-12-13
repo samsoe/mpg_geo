@@ -21,5 +21,3 @@ veg_sf %>%
   ggplot() +
     geom_sf(mapping = aes(fill = as.factor(Action), alpha=0.4)) +
     facet_wrap(~ Year)
-
-veg_sf %>% head()
