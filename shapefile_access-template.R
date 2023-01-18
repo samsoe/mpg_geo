@@ -5,31 +5,22 @@ library(ggplot2)
 
 # Download and Unzip Shapefiles
 bucket <- 'https://storage.googleapis.com/mpg-data-warehouse/mpg_geo/'
-url_veg_man <- paste(bucket, 'vegetation_management/shapefile/vegetation_management.zip', sep="")
-url_reveg <- paste(bucket, 'revegetation/shapefile/revegetation.zip', sep="")
-url_spray <- paste(bucket, 'spraying/shapefile/spraying.zip', sep="")
+url_mpg_restoration <- paste(bucket, 'mpg_restoration/shapefile/MPG_Restoration.zip', sep="")
+filename = 'MPG_Restoration.zip'
 
-target_urls <- c(url_veg_man, url_reveg, url_spray)
-target_files <- basename(target_urls) %>% str_replace("(?<=.zip).*$","")
+download.file(url_mpg_restoration, 
+              destfile = paste0("raw_data/zipped/", filename), 
+              method = "libcurl")
 
-download.file(target_urls, destfile = paste0("raw_data/zipped/", target_files), method = "libcurl")
+# Unzipping is currently a manual process
 
-zipped_files <- list.files("raw_data/zipped", pattern = ".zip$", full.names = TRUE)
-
-# This is not working as expected, files were manually unzipped on the command line
-# walk(zipped_files, unzip, exdir = "raw_data/unzipped", list = TRUE)
-# OR
-# unzip(zipped_files, exdir = "raw_data/unzipped")
-
-# Select Category
-veg_man <- "vegetation_management"
-spray <- "spraying"
-reveg <- "revegetation"
-
-select_category <- reveg
+# Consider change shapefile Layer name to MPG_Restoration or vice versa zip named All_Restoration
+select_category <- 'All_Restoration'
 
 # Read Shapefile
-category_sf <- read_sf(paste0('raw_data/unzipped/', select_category, '.shp')) 
+category_sf <- read_sf(paste0('raw_data/shp/', select_category, '.shp')) 
+
+category_sf %>% glimpse()
 
 # Interactive map with mapview
 mapview(category_sf)
